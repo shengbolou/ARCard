@@ -1,0 +1,12 @@
+---
+applications:
+- instances: 1
+  timeout: 180
+  name: ocr
+  buildpack: java_buildpack
+  path: ./target/ocr-1.0-SNAPSHOT.jar
+  memory: 512M
+  domain: mybluemix.net
+  host: bluesocr
+  services:
+    - cloudant-nosql-db-ocr-5d7iygaer2hqq5w
