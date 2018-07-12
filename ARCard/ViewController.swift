@@ -26,7 +26,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     
     let webView:UIWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1100, height: 550))
-
+    
+    var userName:String! = "Shengbo Lou"
+    var phontNumber:String! = "5084948857"
+    var emailAddress:String! = "asjdhajk@kjhjkf.com"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,10 +41,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(rec:)))
         
         sceneView.addGestureRecognizer(tap)
-        
-        let myURL = URL(string: "https://www.ibm.com")
-        let myURLRequest:URLRequest = URLRequest(url: myURL!)
-        webView.loadRequest(myURLRequest)
     }
     
     @objc func handleTap(rec: UITapGestureRecognizer){
@@ -53,16 +53,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 switch tappedNode.name{
                 case "call":
-                    guard let number = URL(string: "tel://1234567890") else { return }
+                    guard let number = URL(string: "tel://\(self.phontNumber!)") else { return }
                     UIApplication.shared.open(number)
                 case "message":
-                    guard let message = URL(string: "sms://1234567890") else {return}
+                    guard let message = URL(string: "sms://\(self.phontNumber!)") else {return}
                     UIApplication.shared.open(message)
                 case "email":
-                    guard let email = URL(string: "mailto://test@test.com") else {return}
+                    guard let email = URL(string: "mailto://\(self.emailAddress!)") else {return}
                     UIApplication.shared.open(email)
                 case "facetime":
-                    guard let facetime = URL(string: "facetime://1234567890") else {return}
+                    guard let facetime = URL(string: "facetime://\(self.phontNumber!)") else {return}
                     UIApplication.shared.open(facetime)
                 default:
                     print("invalid")
@@ -82,6 +82,43 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             print("Error: Failed to get image tracking referencing image from bundle")
         }
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        
+        let myURL = URL(string: "https://www.ibm.com")
+        let myURLRequest:URLRequest = URLRequest(url: myURL!)
+        webView.loadRequest(myURLRequest)
+        
+        let queue = DispatchQueue(label: "get")
+        queue.sync {
+            let myGroup = DispatchGroup()
+            myGroup.enter()
+            // prepare json data
+            let image : UIImage = UIImage(named:"art.scnassets/sandeep.png")!
+            let imageData:NSData = image.pngData()! as NSData
+            let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+            let json: [String: Any] = ["base64": strBase64]
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            
+            let url = URL(string: "https://bluesocr.mybluemix.net/v1/ocr/base64")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    return
+                }
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+                if let responseJSON = responseJSON{
+                    self.userName = responseJSON!["name"]
+                    self.emailAddress = responseJSON!["email"]
+                    self.phontNumber = responseJSON!["phone"]
+                    myGroup.leave()
+                }
+            }
+            task.resume()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -107,6 +144,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 
                 let infoScene = SKScene(fileNamed: "Info")
+                let firstNameNode = infoScene?.childNode(withName: "firstName") as! SKLabelNode
+                let lastNameNode = infoScene?.childNode(withName: "lastName") as! SKLabelNode
+                firstNameNode.text = String(self.userName.split(separator: Character(" "))[0])
+                lastNameNode.text = String(self.userName.split(separator: Character(" "))[1])
                 infoScene?.isPaused = false
                 let infoPlane = SCNPlane(width: CGFloat(imageSize.width * 1.15), height: CGFloat(imageSize.height))
                 infoPlane.firstMaterial?.diffuse.contents = infoScene
