@@ -25,8 +25,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     
-    var webView:UIWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1024, height: 500))
-    
+    let webView:UIWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1100, height: 550))
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +38,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneView.addGestureRecognizer(tap)
         
-        let myURL = URL(string: "https://www.ibm.com/")
+        let myURL = URL(string: "https://www.ibm.com")
         let myURLRequest:URLRequest = URLRequest(url: myURL!)
         webView.loadRequest(myURLRequest)
     }
@@ -104,6 +104,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.addChildNode(imageHightingAnimationNode)
             
             imageHightingAnimationNode.runAction(imageHighlightAction) {
+                
+                
                 let infoScene = SKScene(fileNamed: "Info")
                 infoScene?.isPaused = false
                 let infoPlane = SCNPlane(width: CGFloat(imageSize.width * 1.15), height: CGFloat(imageSize.height))
@@ -119,14 +121,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 infoNode.runAction(moveAction, completionHandler: {
                     //webview
-                    let webPlane = SCNPlane(width: CGFloat(imageSize.width*1.8), height: CGFloat(imageSize.height*2))
+                    let webPlane = SCNPlane(width: CGFloat(imageSize.width*2.3), height: CGFloat(imageSize.height*2.6))
                     webPlane.firstMaterial?.diffuse.contents = self.webView
                     let webNode = SCNNode(geometry: webPlane)
                     webNode.geometry?.firstMaterial?.isDoubleSided = true
                     webNode.eulerAngles.x = -.pi / 2
                     webNode.position = SCNVector3Zero
                     node.addChildNode(webNode)
-                    let webMoveAction = SCNAction.move(by:SCNVector3(-imageSize.width*1.45, 0, imageSize.height/2.5) ,duration: 0.3)
+                    let webMoveAction = SCNAction.move(by:SCNVector3(imageSize.width*0.6, 0, imageSize.height*3) ,duration: 0.3)
                     webNode.runAction(webMoveAction, completionHandler: {
                         //buttons
                         let distances = [
@@ -148,8 +150,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                             btnNode.position = SCNVector3Zero
                             btnNode.name = type.lowercased()
                             node.addChildNode(btnNode)
-                            let btnMoveAction = SCNAction.move(by: SCNVector3(distances[type]!, 0, imageSize.height), duration: 0.3)
-                            btnNode.runAction(btnMoveAction)
+                            let btnMoveAction = SCNAction.move(by: SCNVector3(distances[type]!, 0, imageSize.height*1.15), duration: 0.3)
+                            btnNode.runAction(btnMoveAction, completionHandler:{
+                                if type == "FaceTime"{
+                                    // one man stand
+                                    let logoScene = SCNScene(named: "art.scnassets/RP_Man_Dennis_0263_30k.OBJ")!
+                                    
+                                    let logoNode = logoScene.rootNode.childNodes.first!
+                                    logoNode.scale = SCNVector3(0.015, 0.015, 0.015)
+                                    logoNode.position = SCNVector3Zero
+                                    logoNode.eulerAngles.y = -.pi / 2
+                                    logoNode.position.z = 0.05
+                                    let material = SCNMaterial()
+                                    material.diffuse.contents = UIImage(named: "art.scnassets/RP_Man_Dennis_0263_dif.jpg")
+                                    logoNode.geometry?.materials = [material]
+                                    node.addChildNode(logoNode)
+                                }
+                            })
+                            
                         }
                     })
                 })
