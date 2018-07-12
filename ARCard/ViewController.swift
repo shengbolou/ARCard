@@ -25,6 +25,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     
+    var webView:UIWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1024, height: 500))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,10 +37,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(rec:)))
         
         sceneView.addGestureRecognizer(tap)
+        
+        let myURL = URL(string: "https://www.ibm.com/")
+        let myURLRequest:URLRequest = URLRequest(url: myURL!)
+        webView.loadRequest(myURLRequest)
     }
     
     @objc func handleTap(rec: UITapGestureRecognizer){
-        
         if rec.state == .ended {
             let location: CGPoint = rec.location(in: sceneView)
             let hits = self.sceneView.hitTest(location, options: nil)
@@ -113,29 +118,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 let moveAction = SCNAction.move(by: SCNVector3(imageSize.width*1.15, 0, 0), duration: 0.3)
                 
                 infoNode.runAction(moveAction, completionHandler: {
-                    let distances = [
-                        "Call" : -imageSize.width/3.5,
-                        "Message" : imageSize.width/3.5,
-                        "Email" : imageSize.width*1.5,
-                        "FaceTime" : imageSize.width*0.9
-                    ]
-                    for type in distances.keys{
-                        let btnScene = SKScene(fileNamed: type)
-                        btnScene?.isPaused = false
-                        let btnPlane = SCNPlane(width: CGFloat(imageSize.width/3), height: CGFloat(imageSize.height/1.5))
-                        btnPlane.firstMaterial?.diffuse.contents = btnScene
-                        btnPlane.firstMaterial?.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
-                        
-                        let btnNode = SCNNode(geometry: btnPlane)
-                        btnNode.geometry?.firstMaterial?.isDoubleSided = true
-                        btnNode.eulerAngles.x = -.pi / 2
-                        btnNode.position = SCNVector3Zero
-                        btnNode.name = type.lowercased()
-                        node.addChildNode(btnNode)
-                        let btnMoveAction = SCNAction.move(by: SCNVector3(distances[type]!, 0, imageSize.height), duration: 0.3)
-                        btnNode.runAction(btnMoveAction)
-                    }
-                    
+                    //webview
+                    let webPlane = SCNPlane(width: CGFloat(imageSize.width*1.8), height: CGFloat(imageSize.height*2))
+                    webPlane.firstMaterial?.diffuse.contents = self.webView
+                    let webNode = SCNNode(geometry: webPlane)
+                    webNode.geometry?.firstMaterial?.isDoubleSided = true
+                    webNode.eulerAngles.x = -.pi / 2
+                    webNode.position = SCNVector3Zero
+                    node.addChildNode(webNode)
+                    let webMoveAction = SCNAction.move(by:SCNVector3(-imageSize.width*1.45, 0, imageSize.height/2.5) ,duration: 0.3)
+                    webNode.runAction(webMoveAction, completionHandler: {
+                        //buttons
+                        let distances = [
+                            "Call" : -imageSize.width/3.5,
+                            "Message" : imageSize.width/3.5,
+                            "Email" : imageSize.width*1.5,
+                            "FaceTime" : imageSize.width*0.9
+                        ]
+                        for type in distances.keys{
+                            let btnScene = SKScene(fileNamed: type)
+                            btnScene?.isPaused = false
+                            let btnPlane = SCNPlane(width: CGFloat(imageSize.width/3), height: CGFloat(imageSize.height/1.5))
+                            btnPlane.firstMaterial?.diffuse.contents = btnScene
+                            btnPlane.firstMaterial?.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
+                            
+                            let btnNode = SCNNode(geometry: btnPlane)
+                            btnNode.geometry?.firstMaterial?.isDoubleSided = true
+                            btnNode.eulerAngles.x = -.pi / 2
+                            btnNode.position = SCNVector3Zero
+                            btnNode.name = type.lowercased()
+                            node.addChildNode(btnNode)
+                            let btnMoveAction = SCNAction.move(by: SCNVector3(distances[type]!, 0, imageSize.height), duration: 0.3)
+                            btnNode.runAction(btnMoveAction)
+                        }
+                    })
                 })
             }
             
