@@ -34,9 +34,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let myURL = URL(string: "https://www.ibm.com")
-        let myURLRequest:URLRequest = URLRequest(url: myURL!)
-        webView.loadRequest(myURLRequest)
+        let ibmUrl = URL(string: "https://www.ibm.com")
+        let ibmUrlReuqest:URLRequest = URLRequest(url: ibmUrl!)
+        webView.loadRequest(ibmUrlReuqest)
         sceneView.delegate = self
 //        sceneView.showsStatistics = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(rec:)))
