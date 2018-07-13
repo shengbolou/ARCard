@@ -165,7 +165,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 infoNode.eulerAngles.x = -.pi / 2
                 infoNode.position = SCNVector3Zero
                 node.addChildNode(infoNode)
-                let moveAction = SCNAction.move(by: SCNVector3(imageSize.width*1.15, 0, 0), duration: 0.3)
+                let moveAction = SCNAction.move(by: SCNVector3(imageSize.width*1.2, 0, 0), duration: 0.3)
                 
                 infoNode.runAction(moveAction, completionHandler: {
                     //video view
