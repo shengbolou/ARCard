@@ -38,7 +38,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let myURLRequest:URLRequest = URLRequest(url: myURL!)
         webView.loadRequest(myURLRequest)
         sceneView.delegate = self
-        sceneView.showsStatistics = true
+//        sceneView.showsStatistics = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(rec:)))
         sceneView.addGestureRecognizer(tap)
         vNode.pause()
@@ -248,6 +248,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             print("Error: Failed to get ARImageAnchor")
         }
     }
+    
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
