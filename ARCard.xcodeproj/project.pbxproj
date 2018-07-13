@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2B72FE120F6A6E700F170A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B72FE020F6A6E700F170A9 /* AppDelegate.swift */; };
+		E205DDC620F830FD0065986A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E205DDC520F830FD0065986A /* AppDelegate.swift */; };
 		E2B72FE320F6A6E700F170A9 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E2B72FE220F6A6E700F170A9 /* art.scnassets */; };
 		E2B72FE520F6A6E700F170A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B72FE420F6A6E700F170A9 /* ViewController.swift */; };
 		E2B72FE820F6A6E700F170A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2B72FE620F6A6E700F170A9 /* Main.storyboard */; };
@@ -21,8 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E205DDC520F830FD0065986A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2B72FDD20F6A6E700F170A9 /* ARCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2B72FE020F6A6E700F170A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2B72FE220F6A6E700F170A9 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		E2B72FE420F6A6E700F170A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E2B72FE720F6A6E700F170A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,6 +47,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E205DDC420F830D50065986A /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				E2B72FF420F6B5B200F170A9 /* Info.sks */,
+				E2B72FF620F6D23B00F170A9 /* Call.sks */,
+				E2B72FF820F6DF3500F170A9 /* Message.sks */,
+				E2B72FFA20F6F92600F170A9 /* Email.sks */,
+				E2B72FFC20F6F96800F170A9 /* FaceTime.sks */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 		E2B72FD420F6A6E700F170A9 = {
 			isa = PBXGroup;
 			children = (
@@ -66,18 +78,14 @@
 		E2B72FDF20F6A6E700F170A9 /* ARCard */ = {
 			isa = PBXGroup;
 			children = (
-				E2B72FE020F6A6E700F170A9 /* AppDelegate.swift */,
+				E205DDC420F830D50065986A /* Scenes */,
 				E2B72FE220F6A6E700F170A9 /* art.scnassets */,
 				E2B72FE420F6A6E700F170A9 /* ViewController.swift */,
 				E2B72FE620F6A6E700F170A9 /* Main.storyboard */,
+				E205DDC520F830FD0065986A /* AppDelegate.swift */,
 				E2B72FE920F6A6E900F170A9 /* Assets.xcassets */,
 				E2B72FEB20F6A6E900F170A9 /* LaunchScreen.storyboard */,
 				E2B72FEE20F6A6E900F170A9 /* Info.plist */,
-				E2B72FF420F6B5B200F170A9 /* Info.sks */,
-				E2B72FF620F6D23B00F170A9 /* Call.sks */,
-				E2B72FF820F6DF3500F170A9 /* Message.sks */,
-				E2B72FFA20F6F92600F170A9 /* Email.sks */,
-				E2B72FFC20F6F96800F170A9 /* FaceTime.sks */,
 			);
 			path = ARCard;
 			sourceTree = "<group>";
@@ -159,8 +167,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E205DDC620F830FD0065986A /* AppDelegate.swift in Sources */,
 				E2B72FE520F6A6E700F170A9 /* ViewController.swift in Sources */,
-				E2B72FE120F6A6E700F170A9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

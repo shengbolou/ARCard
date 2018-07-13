@@ -27,26 +27,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     let webView:UIWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1100, height: 550))
     let vNode = SKVideoNode(fileNamed: "art.scnassets/ibm.mp4")
-    var userName:String! = "Sandeep Singhal"
-    var phontNumber:String! = "5084948857"
-    var emailAddress:String! = "asjdhajk@kjhjkf.com"
+    var userName:String!
+    var phoneNumber:String!
+    var emailAddress:String!
     var play:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let myURL = URL(string: "https://www.ibm.com")
         let myURLRequest:URLRequest = URLRequest(url: myURL!)
         webView.loadRequest(myURLRequest)
-        
         sceneView.delegate = self
-        
         sceneView.showsStatistics = true
-
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(rec:)))
-        
         sceneView.addGestureRecognizer(tap)
-        
         vNode.pause()
     }
 
@@ -61,16 +55,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 switch tappedNode.name{
                 case "call":
-                    guard let number = URL(string: "tel://\(self.phontNumber!)") else { return }
+                    guard let number = URL(string: "tel://\(self.phoneNumber!)") else { return }
                     UIApplication.shared.open(number)
                 case "message":
-                    guard let message = URL(string: "sms://\(self.phontNumber!)") else {return}
+                    guard let message = URL(string: "sms://\(self.phoneNumber!)") else {return}
                     UIApplication.shared.open(message)
                 case "email":
                     guard let email = URL(string: "mailto://\(self.emailAddress!)") else {return}
                     UIApplication.shared.open(email)
                 case "facetime":
-                    guard let facetime = URL(string: "facetime://\(self.phontNumber!)") else {return}
+                    guard let facetime = URL(string: "facetime://\(self.phoneNumber!)") else {return}
                     UIApplication.shared.open(facetime)
                 case "video":
                     if play {
@@ -124,7 +118,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             if let responseJSON = responseJSON{
                 self.userName = responseJSON!["name"]
                 self.emailAddress = responseJSON!["email"]
-                self.phontNumber = responseJSON!["phone"]
+                self.phoneNumber = responseJSON!["phone"]
                 dispatchGroup.leave()
                 dispatchGroup.notify(queue: .main, execute: {
                     self.sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
@@ -159,7 +153,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 let infoScene = SKScene(fileNamed: "Info")
                 let firstNameNode = infoScene?.childNode(withName: "firstName") as! SKLabelNode
                 let lastNameNode = infoScene?.childNode(withName: "lastName") as! SKLabelNode
-                firstNameNode.text = String(self.userName.split(separator: Character(" "))[0])
+                firstNameNode.text = "Sandeep"
                 lastNameNode.text = String(self.userName.split(separator: Character(" "))[1])
                 infoScene?.isPaused = false
                 let infoPlane = SCNPlane(width: CGFloat(imageSize.width * 1.15), height: CGFloat(imageSize.height))
