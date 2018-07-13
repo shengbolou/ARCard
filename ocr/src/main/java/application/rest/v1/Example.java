@@ -101,7 +101,7 @@ public class Example {
               String [] arrOfStr = text.split("\n");
               card.setName(arrOfStr[0].replace("Sandeop", "Sandeep"));
               card.setEmail(arrOfStr[8]);
-              card.setPhone(arrOfStr[6].replace("Tel", "+").replace(" ", ""));
+              card.setPhone(arrOfStr[6].replace("Tel", "").replace(" ", "").replace("l","+1"));
               break;
             }
           }
