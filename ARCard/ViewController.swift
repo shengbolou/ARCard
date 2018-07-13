@@ -231,11 +231,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                                         logoNode.position.z = 0.05
                                         let material = SCNMaterial()
                                         material.diffuse.contents = UIImage(named: "art.scnassets/RP_Man_Dennis_0263_dif.jpg")
+                                        let rotationAction = SCNAction.rotateBy(x: 0, y: 0.5, z: 0, duration: 1)
+                                        let infiniteAction = SCNAction.repeatForever(rotationAction)
                                         logoNode.geometry?.materials = [material]
+                                        logoNode.runAction(infiniteAction)
                                         node.addChildNode(logoNode)
                                     }
                                 })
-                                
                             }
                         })
                     })
