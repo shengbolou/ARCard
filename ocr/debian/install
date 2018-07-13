@@ -1,0 +1,3 @@
+target/ocr-1.0-SNAPSHOT.jar	usr/src/ocr
+terraform/scripts/install.sh	usr/src/ocr
+terraform/scripts/start.sh		usr/src/ocr
